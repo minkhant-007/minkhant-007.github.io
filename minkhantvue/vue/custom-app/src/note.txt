@@ -1,0 +1,67 @@
+Vue #Day1
+node_modules => for package
+    - Public => Entry point
+    - Src =>Source file
+    => components
+        cart Item (each of page)
+    =>Vue 
+        Home,shop,about,contact
+    ->vue file
+        -template (HTML)
+        -script (JS)
+        -style (CSS)
+
+    -ES6
+
+Vue #Day2
+-------
+    1-In Broswer
+    2-CLI
+
+    1=> In Broswer
+        -home.html , about.html , contact.html
+        -link a href
+        -script src main framework
+            -createApp
+                data => variable define
+                methods => function()
+                computed => function(return)
+                filter => function(return)
+                create()
+                mounted()
+            Dom
+                -reactivity
+                -rendering
+                v-if/v-for/v-html/v-bind/v-on
+    2 =>CLI (command line interface)
+        -index.html
+        -import
+        -import main framework
+        -create only vue App 
+            -views (.vue)
+            -rounter (route => view)
+            -components(.vue)
+
+Home page
+    -NavBar
+    -slider
+    -content
+    -ADS section
+    -Footer
+About page
+    -NavaBar
+    -About section
+    -Footer
+Contact page
+    -NavaBar
+    -Contact Form
+    -Footer
+
+view    
+    -Home page
+    -About page
+    -contact page
+
+components
+    -NavaBar
+    -Footer

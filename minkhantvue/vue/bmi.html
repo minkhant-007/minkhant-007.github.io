@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const app = Vue.createApp ({
+            data (){
+                return {
+                    min:"image/profile.jpeg",
+                    feet:"",
+                    inches:"",
+                    pounds:"",
+                    results:0,
+                    under:"You are underweight",
+                    normal:"You are normalweight",
+                    over:"You are overweight",
+                    obesity:"You are obesity!",
+                    
+                }
+            },
+            methods:{
+                calculate() {
+                    var weight = parseInt(this.pounds)*703;
+                    var height = parseInt(this.feet*12 + this.inches)
+                    var final = parseInt(weight / (height*height));
+                    this.results =final;
+
+                    event.preventDefault();
+                    // alert('ok')
+                },
+            }
+        })
+    </script>
+</head>
+<body>
+    <div id="app">
+        
+        <form action="" style="text-align: center;">
+
+        <img :src="min" alt=""width="200" height="200">
+        <h1 style="color:rgb(230, 35, 68);">BMI Calculate</h1>
+
+        <input type="number" placeholder="Enter your height of feet" v-model="feet"><br><br>
+        <input type="number" placeholder="Enter your height of inches" v-model="inches"><br><br>
+        <input type="number" placeholder="Enter your pounds" v-model="pounds"><br><br>
+       
+        <button @click="calculate">calculate</button>
+        
+
+        <div>
+            <p>U BMI is:{{results}} </p>
+        </div>
+
+        <div V-If ="results<18.5 && results!=0"><h3 style="color: blue; font-weight:bold" v-html="under">{{under}}</h3></div>
+        <div V-If ="results>18.5 && results<25"><h3 style="color: green; font-weight:bold"v-html="normal">{{normal}}</h3></div>
+        <div V-If ="results>25 && results<30"><h3 style="color: red; font-weight:bold"v-html="over">{{over}}</h3></div>
+        <div V-If ="results>30"><h3 style="color: orange; font-weight:bold"v-html="obesity">{{obesity}}</h3></div>
+            
+        </form>
+    </div>
+    <script>
+        const mountedApp = app.mount("#app")
+    </script>
+</body>
+</html>
