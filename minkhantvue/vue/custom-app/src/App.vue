@@ -2,8 +2,8 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/contact">contact</router-link>
-
+    <router-link to="/contact">contact</router-link> |
+    <router-link to="/Shop">Shop</router-link> |
   </nav>
   <router-view/>
 </template>

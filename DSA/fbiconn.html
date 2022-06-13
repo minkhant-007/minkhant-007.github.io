@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Calculate fibonacii</h2>
+    <script>
+        let first_term =0
+        let second_term = 1
+        let term = 0
+        document.write(first_term,' , ',second_term)
+        while(second_term<=1000) {
+            term = second_term // 1
+            second_term = second_term+first_term // 1+0
+            first_term=term//1
+            if(second_term<=1000){
+                document.write(' , ',second_term)
+            }
+        }
+    </script>
+</body>
+</html>

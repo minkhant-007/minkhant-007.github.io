@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ContactView from '../views/ContactView.vue'
+import ShopView from '../views/ShopView.vue'
+import ShopDetail from '../views/ShopDetail.vue'
+
 
 const routes = [
   {
@@ -20,7 +23,17 @@ const routes = [
     path: '/Contact',
     name: 'Contact',
     component: ContactView
-  }
+  },
+  {
+    path: '/Shop',
+    name: 'Shop',
+    component: ShopView
+  },
+  {
+    path: '/detail/:id',
+    name: 'shopdetail',
+    component: ShopDetail
+  },
 ]
 
 const router = createRouter({
