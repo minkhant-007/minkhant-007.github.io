@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #scrolly{
+            height: 100px;
+            width: 300px;
+            overflow: auto;
+            margin:0 auto;
+            white-space: nowrap;  
+        }
+        .imgmemes{
+            width: 70px;
+            height: 70px;
+            display: inline;
+        }
+        .mytable{
+            margin-left: auto;
+            margin-right: auto;  
+            margin-top: 60px;
+            background-color: white;
+            box-shadow: 10px 10px 5px rgb(116, 116, 116);
+            padding: 20px;
+            }
+        #default{
+            color: blue;
+        }
+        #search{
+            background-color: aqua;
+           
+        }
+        #forsearch input{
+            color: red;
+        }
+        #addbtn,#generatebtn{
+            padding: 5px;
+            border: 1px solid gray;
+            border-radius: 3px;
+            margin-left: auto;
+            margin-right: auto; 
+            background-color:rgb(239, 34, 34);
+            color: white; 
+            box-shadow: 5px 5px 5px rgb(116, 116, 116);
+
+
+        }
+    </style>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get("https://api.imgflip.com/get_memes",function(resp){
+                var imgArr = resp.data.memes;
+                var imgArrJson = JSON.stringify(imgArr);
+                localStorage.setItem("memes_img",imgArrJson)
+                })
+            getdata();
+            function getdata(){
+                var ls =localStorage.getItem("memes_img")
+                if(ls){
+                    var imgArr = JSON.parse(ls)
+                    var data=""
+                    $.each(imgArr,function(i,v){
+                    data += `
+                    <img src="${v.url}" alt="" data-id="${i}" class="imgmemes">               
+                    `                   
+                    })
+                    $("#scrolly").html(data)
+                }
+                var textArr =[
+                {name:"text#1", id: 1, placeholder: "text#3"},
+                {name:"text#2", id: 2, placeholder: "text#4"},
+                {name:"text#3", id: 3, placeholder: "text#5"},   
+            ]
+            $("#mytable").on("click","#addbtn",function(){
+                var data=""
+                $.each(textArr,function(i,v) {
+                    data += `<div class="extra">
+                            <input type="text" placeholder = text#${v.id+2} data-id ="$.{v.id}" class="mynewtext">
+                            </div>`
+                        v.id++;
+                        return false;
+                        if(i=v.id > 10) {
+                            return false
+                        }
+                    
+                })
+                $('.table tr td.div').append(data);
+                getdata();
+            })
+            $("#scrolly").on("click","img",function(){
+                    $(".defalutimg").hide(); 
+                    $("#default").hide(); 
+                    var index = $(this).data("id")
+                    var ls = localStorage.getItem("memes_img")
+                    if(ls){
+                    var imgArr = JSON.parse(ls)
+                    var showurl = imgArr[index].url;
+                    var showTT = imgArr[index].name;
+                    var img =`<img src = "${showurl}" width="350px" data-id="${index}"  class="newimg" height="400px" >`
+                    var tit =`<h4>${showTT}</h4>`
+                    $("#content").html(img) ;            
+                    $(".newTitle").html(tit) ;   
+                    var imgbox =imgArr[index].box_count;
+                    console.log(imgbox)
+                            var data=""
+                    $.each(textArr,function(i,v){ 
+                        data += `<div class="extradiv">
+                            <input type="text" placeholder="${v.placeholder}" data-id="${v.id}" class="mynewtext">
+                           </div>  `    
+                          
+                            if(imgbox == (i+3)){
+                                return false;
+                            }
+                }) 
+                        if(imgbox == 2){
+                        $("div.extradiv").remove();
+                        }else if(imgbox == 3){
+                        $("div.extradiv").remove();
+                        $('.mytable tr td.mydivnew ').append(data);  
+                        }else if(imgbox == 4){
+                        $("div.extradiv").remove();
+                        $('.mytable tr td.mydivnew ').append(data);  
+                        }
+                        else{
+                        $("div.extradiv").remove();
+                        $('.mytable tr td.mydivnew ').append(data);  
+                        }
+                         getdata();
+                    }
+                         
+                })          
+            } $("#mytable").on("click","#genebtn",function(){   
+                    
+                    $(".defalutimg").hide(); 
+                    var index= $("#content img.newimg").data("id");
+                    var ls = localStorage.getItem("memes_img")
+                    if(ls){
+                    var imgArr = JSON.parse(ls)
+
+                    $.post( "https://api.imgflip.com/caption_image",{
+                            template_id: imgArr[index].id,
+                            username: "thetpainghtutfly",
+                            password: "thetpainghtutfly",
+                            text0:$("#top").val(),
+                            text1:$("#bottom").val(),
+                            }, function( resp ) { // console.log(resp.data); // server response 
+                            if (resp.success == true){
+                            console.log("hi");
+                            var img = `<img src="${resp.data.url}"  width="350px"  height="400px">`
+                            $("#content").html(img)
+                            }
+                            });
+                           
+                            getdata();
+        }
+
+    })
+})
+
+    </script>
+</head>
+<body>
+    <table class="table" border="0" cellspacing="0" >
+        <tbody id="mytable">
+            <tr>
+                <td>
+                    <div id="content" style="display: inline-block; margin-right: 70px;" >
+                        <img src="https://i.imgflip.com/30b1gx.jpg"  class="defalutimg" alt=""  width="400px" height="400px" >
+                    </div>
+                </td>
+                <td colspan="6"> 
+                    <div style="display: inline-block; border:px solid rgb(231, 11, 11); border-radius:3px">
+                        <div id="forsearch">
+                            <input type="text" placeholder="Search Meme's image" id="search">
+                            <button class="searchbtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        <div>
+                        <h4 id="default" >Drake Hotline Bling</h4>
+                        </div> 
+                        <div class="newTitle">
+                        </div>
+                        <hr> 
+                         <div id='scrolly'></div>
+                        
+                         </div>
+                    </td> 
+            </tr>
+            <tr>
+                <td class="div">
+                    <div width="350px" style="display:inline-block">
+                        <input type="text" placeholder="Top" class="mydeftext" id="top" value="">              
+                        <input type="text" placeholder="Bottom" class="mydeftext"  id="bottom" value="">      
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style = "position:relative; left:230px; top:2px; ">
+                        <button id="addbtn">Add Text</button>     
+                     </div>
+       
+                </td>                                  
+            </tr>
+            <tr>
+                <td>
+                    <div><button id="genebtn" style="position:relative; left: 400px;" >
+                        Generate Memes
+                    </button></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
